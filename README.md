@@ -21,11 +21,16 @@ Boas-vindas!
 Lista: 20 21 35
 
 Escolha sua opção:
+
 [ 1 ] Remover um número
+
 [ 2 ] Adicionar um número
+
 [ 3 ] Sair
+
 Sua opção: 2
-Digite o número a ser adicionado: 42s
+
+Digite o número a ser adicionado: 42
 
 Lista: 20 21 35 42
 
