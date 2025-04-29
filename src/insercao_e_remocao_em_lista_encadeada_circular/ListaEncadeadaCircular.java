@@ -1,125 +1,93 @@
 package insercao_e_remocao_em_lista_encadeada_circular;
-import java.util.Scanner;
-
 public class ListaEncadeadaCircular {
-    class No {
-        int dado;
-        No proximo;
+	  No inicio = null;
 
-        No(int dado) {
-            this.dado = dado;
-            this.proximo = null;
-        }
-    }
+	  class No {
+	    int dado;
+	    No proximo;
 
-    No inicio = null;
+	    No(int elemento) {
+	      this.dado = elemento;
+	      this.proximo = null;
+	    }
+	  }
 
-    public boolean vazia() {
-        return inicio == null;
-    }
+	  public void insereElemento(int elemento) {
+	    No novoNo = new No(elemento);
 
-    public void insere(int dado) {
-        No novoNo = new No(dado);
-        if (vazia()) {
-            inicio = novoNo;
-            inicio.proximo = inicio;
-        } else {
-            No atual = inicio;
-            while (atual.proximo != inicio) { 
-                atual = atual.proximo;
-            }
-            atual.proximo = novoNo;        
-            novoNo.proximo = inicio;       
-        }
-    }
+	    if (inicio == null) {
+	      inicio = novoNo;
+	      novoNo.proximo = inicio;
+	    } else {
+	      No atual = inicio;
+	      while (atual.proximo != inicio) {
+	        atual = atual.proximo;
+	      }
+	      atual.proximo = novoNo;
+	      novoNo.proximo = inicio;
+	    }
+	  }
 
-    public void imprime() {
-        if (vazia()) {
-            System.out.println("Lista vazia!");
-        } else {
-            System.out.print("\nLista: ");
-            No atual = inicio;
-            do {                             
-                System.out.print(atual.dado + " ");
-                atual = atual.proximo;
-            } while (atual != inicio);     
-            System.out.println();
-        }
-    }
+	  public void exibeLista() {
+	    No atual = inicio;
+	    System.out.print("Lista: ");
+	    while (atual.proximo != inicio) {
+	      System.out.print(atual.dado + " ");
+	      atual = atual.proximo;
+	    }
+	    System.out.print(atual.dado + " ");
+	    System.out.println();
+	  }
 
-    public void remove(int numero) {
-        if (!vazia()) {
-            No atual = inicio;
-            No anterior = null;
+	  public void removeElemento(int valor) {
 
-            do {
-                if (atual.dado == numero) {
-                    if (atual == inicio) {
-                        if (inicio.proximo == inicio) { 
-                            inicio = null;
-                        } else {
-                            No ultimo = inicio;
-                            while (ultimo.proximo != inicio) { 
-                                ultimo = ultimo.proximo;
-                            }
-                            inicio = inicio.proximo;     
-                            ultimo.proximo = inicio;     
-                        }
-                    } else {
-                        anterior.proximo = atual.proximo; 
-                    }
-                    return;
-                }
-                anterior = atual;
-                atual = atual.proximo;
-            } while (atual != inicio); 
-        } else {
-            System.out.println("Lista vazia!");
-        }
-    }
+	    No atual = inicio;
+	    No anterior;
+//	    lida com o primerio valor
+	    if ( atual.dado == valor) {
+	      No novoInicio = atual.proximo;
 
-    public static void main(String[] args) {
-        final Scanner scanner = new Scanner(System.in);
-        System.out.println("Boas-vindas!");
+	      while(atual.proximo != inicio){
+	        atual = atual.proximo;
+	      }
+	      atual.proximo = novoInicio;
+	      inicio = novoInicio;
+	      System.out.printf("Valor %d deletado!\n", valor);
+	      return;
+	    }
 
-        boolean continuaPrograma = true;
-        ListaEncadeadaCircular lista = new ListaEncadeadaCircular();
-        lista.insere(20);
-        lista.insere(21);
-        lista.insere(35);
+	    while (atual.proximo != inicio){
+	      anterior = atual;
+	      atual = atual.proximo;
+	      if (atual.dado == valor){
+	        anterior.proximo = atual.proximo;
+	        System.out.printf("Valor %d deletado!\n", valor);
+	        break;
+	      }
+	      if (atual.proximo == inicio) {
+	        System.out.println("Numero inexistente!");
+	        break;
+	      }
+	    }
+	  }
 
-        while (continuaPrograma) {
-            if (!lista.vazia()) lista.imprime();
-            else System.out.println("A lista está vazia.");
+	  public static void main(String[] args) {
+	    ListaEncadeadaCircular lista = new ListaEncadeadaCircular();
+	    lista.insereElemento(10);
+	    lista.insereElemento(30);
+	    lista.insereElemento(10);
+	    lista.insereElemento(30);
+	    lista.insereElemento(50);
+	    lista.insereElemento(60);
+	    lista.insereElemento(70);
 
-            System.out.println("\nEscolha sua opção: ");
-            System.out.println("[ 1 ] Remover um número");
-            System.out.println("[ 2 ] Adicionar um número");
-            System.out.println("[ 3 ] Sair");
-            System.out.print("Sua opção: ");
 
-            int opcao = Integer.parseInt(scanner.nextLine());
+	    lista.exibeLista();
+	    lista.removeElemento(70);
+	    lista.removeElemento(100);
+	    lista.insereElemento(90);
+	    lista.removeElemento(90);
 
-            switch (opcao) {
-                case 1:
-                    System.out.print("Digite o número a ser removido: ");
-                    int numeroParaRemover = Integer.parseInt(scanner.nextLine());
-                    lista.remove(numeroParaRemover);
-                    break;
-
-                case 2:
-                    System.out.print("Digite o número a ser adicionado: ");
-                    int numeroParaAdicionar = Integer.parseInt(scanner.nextLine());
-                    lista.insere(numeroParaAdicionar);
-                    break;
-
-                default:
-                    System.out.println("Obrigada por usar o programa!");
-                    continuaPrograma = false;
-                    break;
-            }
-        }
-
-        scanner.close();
-    }
-}
+	    lista.exibeLista();
+	  }
+	}
